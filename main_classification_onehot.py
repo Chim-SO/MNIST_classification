@@ -44,9 +44,9 @@ if __name__ == '__main__':
     model = Sequential()
     model.add(Input(shape=(train_x.shape[1],)))
     model.add(Dense(256, activation='relu'))
-    model.add(Dropout(0.45))
+    model.add(Dropout(0.4))
     model.add(Dense(256, activation='relu'))
-    model.add(Dropout(0.45))
+    model.add(Dropout(0.4))
     model.add(Dense(n_labels, activation='softmax'))
 
     # Train:
