@@ -16,7 +16,7 @@ from tensorflow.python.keras.layers import Dense, Dropout
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import accuracy_score, recall_score, precision_score
+from sklearn.metrics import accuracy_score, recall_score, precision_score, ConfusionMatrixDisplay
 
 
 def split_dataset(dataset, train_frac=0.7):
@@ -103,3 +103,8 @@ if __name__ == '__main__':
         f"Test:\t{round(accuracy_score(test_y, test_pred, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(test_y, test_pred, average='macro') * 100, 2)}\t\t\t"
         f"{round(recall_score(test_y, test_pred, average='macro') * 100, 2)}")
+
+    # Confusion matrix:
+    ConfusionMatrixDisplay.from_predictions(val['label'], val_pred, normalize='true')
+    plt.savefig('output/single/confmat.png', bbox_inches='tight')
+    plt.show()
