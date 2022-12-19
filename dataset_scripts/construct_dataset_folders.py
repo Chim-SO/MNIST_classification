@@ -48,4 +48,4 @@ if __name__ == '__main__':
     print(f"There is {n_labels} labels.")
     print(f"The images size is {im_size}.")
 
-    to_class_folders(images_data, labels_data, os.path.join('dataset_folders', dataset_name))
+    to_class_folders(images_data, labels_data, os.path.join('../dataset_folders', dataset_name))
