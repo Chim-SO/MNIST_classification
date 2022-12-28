@@ -35,8 +35,8 @@ if __name__ == '__main__':
     # Files location:
     train_or_test = 't10k'  # train or t10k
     dataset_name = 'test'
-    labels_file = f'dataset_idx/{train_or_test}-labels.idx1-ubyte'
-    images_file = f'dataset_idx/{train_or_test}-images.idx3-ubyte'
+    labels_file = f'../dataset_idx/{train_or_test}-labels.idx1-ubyte'
+    images_file = f'../dataset_idx/{train_or_test}-images.idx3-ubyte'
 
     # Read data:
     labels_data = idx2numpy.convert_from_file(labels_file)
@@ -51,4 +51,4 @@ if __name__ == '__main__':
 
     # Create csv:
     df = to_csv_one_output(images_data, labels_data)
-    df.to_csv(f'dataset_csv/{dataset_name}.csv', index=False)
+    df.to_csv(f'../dataset_csv/{dataset_name}.csv', index=False)

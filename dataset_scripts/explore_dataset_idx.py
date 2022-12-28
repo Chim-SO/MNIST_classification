@@ -4,9 +4,9 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     # Files location:
-    train_or_test = 'train'  # train or t10k
-    labels_file = f'dataset_idx/{train_or_test}-labels.idx1-ubyte'
-    images_file = f'dataset_idx/{train_or_test}-images.idx3-ubyte'
+    train_or_test = 't10k'  # train or t10k
+    labels_file = f'../dataset_idx/{train_or_test}-labels.idx1-ubyte'
+    images_file = f'../dataset_idx/{train_or_test}-images.idx3-ubyte'
 
     # Read data:
     labels_data = idx2numpy.convert_from_file(labels_file)
@@ -23,4 +23,5 @@ if __name__ == '__main__':
     element = 10
     plt.imshow(images_data[element], cmap=plt.cm.binary)
     plt.title(labels_data[element])
+    plt.savefig('explore.png', bbox_inches='tight')
     plt.show()
