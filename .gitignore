@@ -186,3 +186,4 @@ fabric.properties
 dataset_csv
 dataset_folders
 dataset_idx
+*.csv
