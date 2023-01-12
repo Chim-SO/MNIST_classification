@@ -15,6 +15,7 @@ import tensorflow as tf
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 def split_dataset(dataset, train_frac=0.7):
@@ -24,21 +25,27 @@ def split_dataset(dataset, train_frac=0.7):
 
 
 if __name__ == '__main__':
-    # read dataset:
-    df = pd.read_csv('dataset_csv/train.csv')
-    n_labels = 10
-    # split dataset to train validation:
-    train, val = split_dataset(df)
-    x_train, y_train = train.drop('label', axis=1) / 255., tf.keras.utils.to_categorical(train['label'], num_classes=n_labels)
-    x_val, y_val = val.drop('label', axis=1) / 255., tf.keras.utils.to_categorical(val['label'], num_classes=n_labels)
+    # Read dataset:
+    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+    print(f"The training data shape: {x_train.shape}, its label shape: {y_train.shape}")
+    print(f"The test data shape: {x_test.shape}, its label shape: {y_test.shape}")
 
-    # Display bars:
-    fig, axs = plt.subplots(1, 2)
-    axs[0].bar([str(_) for _ in range(10)], train['label'].value_counts(), width=0.4)
-    axs[0].set_title('Train set')
-    axs[1].bar([str(_) for _ in range(10)], val['label'].value_counts(), width=0.4)
-    axs[1].set_title('Validation set')
-    plt.show()
+    # Dimension transformation:
+    x_train = x_train.reshape((x_train.shape[0], x_train.shape[1] * x_train.shape[2]))
+    x_test = x_test.reshape((x_test.shape[0], x_test.shape[1] * x_test.shape[2]))
+    print(f"The training data shape becomes: {x_train.shape}, its label shape: {y_train.shape}")
+    print(f"The test data shape becomes: {x_test.shape}, its label shape: {y_test.shape}")
+
+    # Output dimension transformation:
+    y_train =tf.keras.utils.to_categorical(y_train, num_classes=10)
+    y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
+
+    # Preprocessing: scaling:
+    x_train = x_train.astype("float32") / 255
+    x_test = x_test.astype("float32") / 255
+
+    # Split dataset:
+    x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3, random_state=42)
 
     # Create model:
     model = Sequential()
@@ -77,8 +84,6 @@ if __name__ == '__main__':
     plt.show()
 
     # Evaluation:
-    test = pd.read_csv('dataset_csv/test.csv')
-    x_test, y_test = test.drop('label', axis=1) / 255., tf.keras.utils.to_categorical(test['label'], num_classes=n_labels)
     test_results = model.evaluate(x_test, y_test, verbose=1)
     print(f'Test set: - loss: {test_results[0]} - {metric}: {test_results[1]}')
 
@@ -86,23 +91,26 @@ if __name__ == '__main__':
     pred_train = np.argmax(model.predict(x_train), axis=1)
     pred_val = np.argmax(model.predict(x_val), axis=1)
     pred_test = np.argmax(model.predict(x_test), axis=1)
-    print()
+    yy_train = np.argmax(y_train, axis=1)
+    yy_val = np.argmax(y_val, axis=1)
+    yy_test = np.argmax(y_test, axis=1)
     print("Displaying other metrics:")
     print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)")
     print(
-        f"Train:\t{round(accuracy_score(train['label'], pred_train, normalize=True) * 100, 2)}\t\t\t"
-        f"{round(precision_score(train['label'], pred_train, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(train['label'], pred_train, average='macro') * 100, 2)}")
+        f"Train:\t{round(accuracy_score(yy_train, pred_train, normalize=True) * 100, 2)}\t\t\t"
+        f"{round(precision_score(yy_train, pred_train, average='macro') * 100, 2)}\t\t\t"
+        f"{round(recall_score(yy_train, pred_train, average='macro') * 100, 2)}")
     print(
-        f"Val :\t{round(accuracy_score(val['label'], pred_val, normalize=True) * 100, 2)}\t\t\t"
-        f"{round(precision_score(val['label'], pred_val, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(val['label'], pred_val, average='macro') * 100, 2)}")
+        f"Val :\t{round(accuracy_score(yy_val, pred_val, normalize=True) * 100, 2)}\t\t\t"
+        f"{round(precision_score(yy_val, pred_val, average='macro') * 100, 2)}\t\t\t"
+        f"{round(recall_score(yy_val, pred_val, average='macro') * 100, 2)}")
     print(
-        f"Test:\t{round(accuracy_score(test['label'], pred_test, normalize=True) * 100, 2)}\t\t\t"
-        f"{round(precision_score(test['label'], pred_test, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(test['label'], pred_test, average='macro') * 100, 2)}")
+        f"Test:\t{round(accuracy_score(yy_test, pred_test, normalize=True) * 100, 2)}\t\t\t"
+        f"{round(precision_score(yy_test, pred_test, average='macro') * 100, 2)}\t\t\t"
+        f"{round(recall_score(yy_test, pred_test, average='macro') * 100, 2)}")
 
     # Confusion matrix:
-    ConfusionMatrixDisplay.from_predictions(val['label'], pred_val, normalize='true')
-    plt.savefig('output/onehot/confmat.png', bbox_inches='tight')
+    ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
+    plt.savefig('output/single/confmat.png', bbox_inches='tight')
     plt.show()
+

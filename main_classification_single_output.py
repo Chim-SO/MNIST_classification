@@ -14,7 +14,6 @@ from tensorflow.python.keras import Input
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense
 
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import accuracy_score, recall_score, precision_score, ConfusionMatrixDisplay
