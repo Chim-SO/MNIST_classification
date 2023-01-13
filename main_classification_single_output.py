@@ -72,16 +72,16 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig('output/single/loss.png', bbox_inches='tight')
+    plt.savefig('output/single/single_loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
     plt.plot(history.history[metric])
     plt.plot(history.history[f'val_{metric}'])
     plt.title(f'Single output model {metric}')
-    plt.ylabel('mae')
+    plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig(f'output/single/{metric}.png', bbox_inches='tight')
+    plt.savefig(f'output/single/single_{metric}.png', bbox_inches='tight')
     plt.show()
 
     # Evaluation:
@@ -108,6 +108,10 @@ if __name__ == '__main__':
         f"{round(recall_score(y_test, pred_test, average='macro') * 100, 2)}")
 
     # Confusion matrix:
-    ConfusionMatrixDisplay.from_predictions(y_val, pred_val, normalize='true')
-    plt.savefig('output/single/confmat.png', bbox_inches='tight')
+    cmp = ConfusionMatrixDisplay.from_predictions(y_val, pred_val, normalize='true')
+    font = {'size': 16}
+    plt.rc('font', **font)
+    fig, ax = plt.subplots(figsize=(10, 10))
+    cmp.plot(ax=ax)
+    plt.savefig('output/single/single_confmat.png', bbox_inches='tight')
     plt.show()

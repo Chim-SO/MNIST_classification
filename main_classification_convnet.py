@@ -80,7 +80,7 @@ if __name__ == '__main__':
     plt.plot(history.history[metric])
     plt.plot(history.history[f'val_{metric}'])
     plt.title(f'CNN model {metric}')
-    plt.ylabel('accuracy')
+    plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
     plt.savefig(f'output/conv/conv_{metric}.png', bbox_inches='tight')

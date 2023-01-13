@@ -61,7 +61,7 @@ if __name__ == '__main__':
     # Train:
     loss = 'categorical_crossentropy'
     metric = 'accuracy'
-    epochs = 20
+    epochs = 50
     model.compile(loss=loss, optimizer='adam', metrics=[metric])
     history = model.fit(x_train, y_train, epochs=epochs, batch_size=128, verbose=1, validation_data=(x_val, y_val))
 
@@ -72,16 +72,16 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig('output/onehot/loss.png', bbox_inches='tight')
+    plt.savefig('output/onehot/onehot_loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
     plt.plot(history.history[metric])
     plt.plot(history.history[f'val_{metric}'])
     plt.title(f'Onehot output model {metric}')
-    plt.ylabel('accuracy')
+    plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig(f'output/onehot/{metric}.png', bbox_inches='tight')
+    plt.savefig(f'output/onehot/onehot_{metric}.png', bbox_inches='tight')
     plt.show()
 
     # Evaluation:
@@ -112,5 +112,5 @@ if __name__ == '__main__':
 
     # Confusion matrix:
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
-    plt.savefig('output/single/confmat.png', bbox_inches='tight')
+    plt.savefig('output/onehot/onehot_confmat.png', bbox_inches='tight')
     plt.show()
