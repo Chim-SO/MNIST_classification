@@ -51,11 +51,11 @@ if __name__ == '__main__':
     # Create model:
     model = Sequential()
     model.add(Input(shape=(x_train.shape[1],)))
-    model.add(Dense(224, activation='sigmoid'))
-    model.add(Dense(224, activation='sigmoid'))
-    model.add(Dense(224, activation='sigmoid'))
-    model.add(Dense(224, activation='sigmoid'))
-    model.add(Dense(224, activation='sigmoid'))
+    model.add(Dense(4, activation='sigmoid'))
+    # model.add(Dense(224, activation='sigmoid'))
+    # model.add(Dense(224, activation='sigmoid'))
+    # model.add(Dense(224, activation='sigmoid'))
+    # model.add(Dense(224, activation='sigmoid'))
     model.add(Dense(1, activation='relu'))
     print(model.summary())
 
@@ -64,12 +64,11 @@ if __name__ == '__main__':
     metric = 'mse'
     epochs = 200
     model.compile(loss=loss, optimizer='adam', metrics=[metric])
-    history = model.fit(x_train, y_train, epochs=epochs, batch_size=64, verbose=1, validation_data=(x_val, y_val))
-
+    history = model.fit(x_train, y_train, epochs=epochs, batch_size=128, verbose=1, validation_data=(x_val, y_val))
     # Display loss:
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
-    plt.title('model loss')
+    plt.title('Single output model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
@@ -78,7 +77,7 @@ if __name__ == '__main__':
     # Display metric:
     plt.plot(history.history[metric])
     plt.plot(history.history[f'val_{metric}'])
-    plt.title(f'model {metric}')
+    plt.title(f'Single output model {metric}')
     plt.ylabel('mae')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])

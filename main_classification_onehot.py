@@ -1,6 +1,8 @@
 from numpy.random import seed
+
 seed(1)
 from tensorflow import random, config
+
 random.set_seed(1)
 config.experimental.enable_op_determinism()
 import random
@@ -12,7 +14,6 @@ from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Dropout
 from sklearn.metrics import accuracy_score, precision_score, recall_score, ConfusionMatrixDisplay
 import tensorflow as tf
-import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -37,7 +38,7 @@ if __name__ == '__main__':
     print(f"The test data shape becomes: {x_test.shape}, its label shape: {y_test.shape}")
 
     # Output dimension transformation:
-    y_train =tf.keras.utils.to_categorical(y_train, num_classes=10)
+    y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
     y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
 
     # Preprocessing: scaling:
@@ -67,16 +68,16 @@ if __name__ == '__main__':
     # Display loss:
     plt.plot(history.history['loss'])
     plt.plot(history.history['val_loss'])
-    plt.title('model loss')
+    plt.title('Onehot output model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
     plt.savefig('output/onehot/loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history[f'val_accuracy'])
-    plt.title(f'model accuracy')
+    plt.plot(history.history[metric])
+    plt.plot(history.history[f'val_{metric}'])
+    plt.title(f'Onehot output model {metric}')
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
@@ -113,4 +114,3 @@ if __name__ == '__main__':
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
     plt.savefig('output/single/confmat.png', bbox_inches='tight')
     plt.show()
-
