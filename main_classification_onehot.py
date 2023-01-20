@@ -1,3 +1,5 @@
+import os
+
 from numpy.random import seed
 
 seed(1)
@@ -12,7 +14,7 @@ random.seed(2)
 from tensorflow.python.keras import Input
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Dropout
-from sklearn.metrics import accuracy_score, precision_score, recall_score, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, precision_score, recall_score, ConfusionMatrixDisplay, f1_score
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
@@ -24,6 +26,8 @@ def split_dataset(dataset, train_frac=0.7):
     val = dataset.drop(train.index)
     return train, val
 
+
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 if __name__ == '__main__':
     # Read dataset:
@@ -52,16 +56,16 @@ if __name__ == '__main__':
     model = Sequential()
     model.add(Input(shape=(x_train.shape[1],)))
     model.add(Dense(224, activation='relu'))
-    model.add(Dropout(0.4))
+    model.add(Dropout(0.2))
     model.add(Dense(224, activation='relu'))
-    model.add(Dropout(0.4))
+    model.add(Dropout(0.2))
     model.add(Dense(10, activation='softmax'))
     print(model.summary())
 
     # Train:
     loss = 'categorical_crossentropy'
     metric = 'accuracy'
-    epochs = 50
+    epochs = 20
     model.compile(loss=loss, optimizer='adam', metrics=[metric])
     history = model.fit(x_train, y_train, epochs=epochs, batch_size=128, verbose=1, validation_data=(x_val, y_val))
 
@@ -96,19 +100,22 @@ if __name__ == '__main__':
     yy_val = np.argmax(y_val, axis=1)
     yy_test = np.argmax(y_test, axis=1)
     print("Displaying other metrics:")
-    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)")
+    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)\tF-measure (%)")
     print(
         f"Train:\t{round(accuracy_score(yy_train, pred_train, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_train, pred_train, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_train, pred_train, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_train, pred_train, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_train, pred_train, average='macro') * 100, 2)}")
     print(
         f"Val :\t{round(accuracy_score(yy_val, pred_val, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_val, pred_val, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_val, pred_val, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_val, pred_val, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_val, pred_val, average='macro') * 100, 2)}")
     print(
         f"Test:\t{round(accuracy_score(yy_test, pred_test, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_test, pred_test, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_test, pred_test, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_test, pred_test, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_test, pred_test, average='macro') * 100, 2)}")
 
     # Confusion matrix:
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')

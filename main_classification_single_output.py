@@ -1,3 +1,5 @@
+import os
+
 from numpy.random import seed
 
 seed(1)
@@ -16,8 +18,10 @@ from tensorflow.python.keras.layers import Dense
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import accuracy_score, recall_score, precision_score, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, recall_score, precision_score, ConfusionMatrixDisplay, f1_score
 from sklearn.model_selection import train_test_split
+
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 if __name__ == '__main__':
     # Read dataset:
@@ -51,7 +55,7 @@ if __name__ == '__main__':
     # Create model:
     model = Sequential()
     model.add(Input(shape=(x_train.shape[1],)))
-    model.add(Dense(4, activation='sigmoid'))
+    model.add(Dense(224, activation='sigmoid'))
     model.add(Dense(224, activation='sigmoid'))
     model.add(Dense(224, activation='sigmoid'))
     model.add(Dense(224, activation='sigmoid'))
@@ -93,19 +97,22 @@ if __name__ == '__main__':
     pred_val = np.rint(np.clip(model.predict(x_val), 0, 9))
     pred_test = np.rint(np.clip(model.predict(x_test), 0, 9))
     print("Displaying other metrics:")
-    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)")
+    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)\tF-measure (%)")
     print(
         f"Train:\t{round(accuracy_score(y_train, pred_train, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(y_train, pred_train, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(y_train, pred_train, average='macro') * 100, 2)}")
+        f"{round(recall_score(y_train, pred_train, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(y_train, pred_train, average='macro') * 100, 2)}")
     print(
         f"Val :\t{round(accuracy_score(y_val, pred_val, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(y_val, pred_val, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(y_val, pred_val, average='macro') * 100, 2)}")
+        f"{round(recall_score(y_val, pred_val, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(y_val, pred_val, average='macro') * 100, 2)}")
     print(
         f"Test:\t{round(accuracy_score(y_test, pred_test, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(y_test, pred_test, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(y_test, pred_test, average='macro') * 100, 2)}")
+        f"{round(recall_score(y_test, pred_test, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(y_test, pred_test, average='macro') * 100, 2)}")
 
     # Confusion matrix:
     cmp = ConfusionMatrixDisplay.from_predictions(y_val, pred_val, normalize='true')

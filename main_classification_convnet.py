@@ -15,7 +15,7 @@ from tensorflow.python.keras.layers import Dense, Dropout, Conv2D, MaxPooling2D,
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import accuracy_score, precision_score, recall_score, ConfusionMatrixDisplay
+from sklearn.metrics import accuracy_score, precision_score, recall_score, ConfusionMatrixDisplay, f1_score
 from sklearn.model_selection import train_test_split
 import os
 
@@ -40,10 +40,6 @@ if __name__ == '__main__':
     # Output dimension transformation:
     y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
     y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
-
-    # Preprocessing: scaling:
-    x_train = x_train.astype("float32") / 255
-    x_test = x_test.astype("float32") / 255
 
     # Split dataset:
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3, random_state=42)
@@ -98,19 +94,22 @@ if __name__ == '__main__':
     yy_val = np.argmax(y_val, axis=1)
     yy_test = np.argmax(y_test, axis=1)
     print("Displaying other metrics:")
-    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)")
+    print("\t\tAccuracy (%)\tPrecision (%)\tRecall (%)\tF-measure (%)")
     print(
         f"Train:\t{round(accuracy_score(yy_train, pred_train, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_train, pred_train, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_train, pred_train, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_train, pred_train, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_train, pred_train, average='macro') * 100, 2)}")
     print(
         f"Val :\t{round(accuracy_score(yy_val, pred_val, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_val, pred_val, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_val, pred_val, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_val, pred_val, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_val, pred_val, average='macro') * 100, 2)}")
     print(
         f"Test:\t{round(accuracy_score(yy_test, pred_test, normalize=True) * 100, 2)}\t\t\t"
         f"{round(precision_score(yy_test, pred_test, average='macro') * 100, 2)}\t\t\t"
-        f"{round(recall_score(yy_test, pred_test, average='macro') * 100, 2)}")
+        f"{round(recall_score(yy_test, pred_test, average='macro') * 100, 2)}\t\t\t"
+        f"{round(f1_score(yy_test, pred_test, average='macro') * 100, 2)}")
 
     # Confusion matrix:
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
