@@ -115,3 +115,18 @@ if __name__ == '__main__':
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
     plt.savefig('output/conv/confmat.png', bbox_inches='tight')
     plt.show()
+
+    # create an array of the misclassified indexes
+    misclass_indexes = np.where(yy_test != pred_test)[0]
+    # display the 5 worst classifications
+    fig, axs = plt.subplots(2, 5, figsize=(12, 6))
+    axs = axs.flat
+    for i in range(10):
+        if i < len(misclass_indexes):
+            axs[i].imshow(x_test[misclass_indexes[i]], cmap='gray')
+            axs[i].set_title("True: {}\nPred: {}".format(yy_test[misclass_indexes[i]],
+                                                         pred_test[misclass_indexes[i]]))
+            axs[i].axis('off')
+    plt.savefig('output/conv/worst.png', bbox_inches='tight')
+    # plt.show()
+    plt.show()
