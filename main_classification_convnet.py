@@ -31,15 +31,15 @@ if __name__ == '__main__':
     x_train = x_train.astype("float32") / 255
     x_test = x_test.astype("float32") / 255
 
+    # Output dimension transformation:
+    y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
+    y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
+
     # Input dimension transformation:
     x_train = np.expand_dims(x_train, -1)
     x_test = np.expand_dims(x_test, -1)
     print(f"The training data shape: {x_train.shape}, its label shape: {y_train.shape}")
     print(f"The test data shape: {x_test.shape}, its label shape: {y_test.shape}")
-
-    # Output dimension transformation:
-    y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
-    y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
 
     # Split dataset:
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3, random_state=42)
