@@ -28,8 +28,10 @@ if __name__ == '__main__':
     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
     print(f"The training data shape: {x_train.shape}, its label shape: {y_train.shape}")
     print(f"The test data shape: {x_test.shape}, its label shape: {y_test.shape}")
+    print("Minimum value:", np.min(x_train[0]))
+    print("Maximum value:", np.max(x_train[0]))
 
-    # Dimension transformation:
+    # Data reshaping : from 2D image to row image
     x_train = x_train.reshape((x_train.shape[0], x_train.shape[1] * x_train.shape[2]))
     x_test = x_test.reshape((x_test.shape[0], x_test.shape[1] * x_test.shape[2]))
     print(f"The training data shape becomes: {x_train.shape}, its label shape: {y_train.shape}")
@@ -50,6 +52,7 @@ if __name__ == '__main__':
     unique, counts = np.unique(y_val, return_counts=True)
     axs[1].bar(unique, counts, width=0.4)
     axs[1].set_title('Validation set')
+    plt.savefig('output/single/data_dist.png', bbox_inches='tight')
     plt.show()
 
     # Create model:
