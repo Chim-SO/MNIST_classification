@@ -70,7 +70,6 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig('output/conv/conv_loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
     plt.plot(history.history[metric])
@@ -79,7 +78,6 @@ if __name__ == '__main__':
     plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig(f'output/conv/conv_{metric}.png', bbox_inches='tight')
     plt.show()
 
     # Evaluation:
@@ -113,7 +111,6 @@ if __name__ == '__main__':
 
     # Confusion matrix:
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
-    plt.savefig('output/conv/confmat.png', bbox_inches='tight')
     plt.show()
 
     # create an array of the misclassified indexes
@@ -127,6 +124,4 @@ if __name__ == '__main__':
             axs[i].set_title("True: {}\nPred: {}".format(yy_test[misclass_indexes[i]],
                                                          pred_test[misclass_indexes[i]]))
             axs[i].axis('off')
-    plt.savefig('output/conv/worst.png', bbox_inches='tight')
-    # plt.show()
     plt.show()

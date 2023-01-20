@@ -52,7 +52,6 @@ if __name__ == '__main__':
     unique, counts = np.unique(y_val, return_counts=True)
     axs[1].bar(unique, counts, width=0.4)
     axs[1].set_title('Validation set')
-    plt.savefig('output/single/data_dist.png', bbox_inches='tight')
     plt.show()
 
     # Create model:
@@ -79,7 +78,6 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig('output/single/single_loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
     plt.plot(history.history[metric])
@@ -88,7 +86,6 @@ if __name__ == '__main__':
     plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig(f'output/single/single_{metric}.png', bbox_inches='tight')
     plt.show()
 
     # Evaluation:
@@ -123,5 +120,4 @@ if __name__ == '__main__':
     plt.rc('font', **font)
     fig, ax = plt.subplots(figsize=(10, 10))
     cmp.plot(ax=ax)
-    plt.savefig('output/single/single_confmat.png', bbox_inches='tight')
     plt.show()

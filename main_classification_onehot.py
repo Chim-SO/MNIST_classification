@@ -76,7 +76,6 @@ if __name__ == '__main__':
     plt.ylabel('loss')
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig('output/onehot/onehot_loss.png', bbox_inches='tight')
     plt.show()
     # Display metric:
     plt.plot(history.history[metric])
@@ -85,7 +84,6 @@ if __name__ == '__main__':
     plt.ylabel(metric)
     plt.xlabel('epoch')
     plt.legend(['train', 'validation'])
-    plt.savefig(f'output/onehot/onehot_{metric}.png', bbox_inches='tight')
     plt.show()
 
     # Evaluation:
@@ -119,5 +117,4 @@ if __name__ == '__main__':
 
     # Confusion matrix:
     ConfusionMatrixDisplay.from_predictions(yy_val, pred_val, normalize='true')
-    plt.savefig('output/onehot/onehot_confmat.png', bbox_inches='tight')
     plt.show()
