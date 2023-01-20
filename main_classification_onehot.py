@@ -41,7 +41,7 @@ if __name__ == '__main__':
     print(f"The training data shape becomes: {x_train.shape}, its label shape: {y_train.shape}")
     print(f"The test data shape becomes: {x_test.shape}, its label shape: {y_test.shape}")
 
-    # Output dimension transformation:
+    # One-hot encoding:
     y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
     y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
 
