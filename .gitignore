@@ -183,7 +183,5 @@ fabric.properties
 
 # idea folder, uncomment if you don't need it
  .idea/
-dataset_csv/
-dataset_folders/
-dataset_idx/
+dataset/
 *.csv
