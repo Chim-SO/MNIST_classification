@@ -1,5 +1,5 @@
 # MNIST classification:  
-This repository contains the code examples of my medium tutorial "A Brief Introduction to Neural Networks : a Classification Problem".
+This repository contains the code examples of my medium tutorial "[A Brief Introduction to Neural Networks : a Classification Problem](https://medium.com/towards-data-science/a-brief-introduction-to-neural-networks-a-classification-problem-43e68c770081)".
  In this tutorial, we create, train and validate three types of models:  
  * The first model is a simple straightforwawrd model with a single input unit.
  * The second model is a straightforward model with one-hot encoded output.
@@ -11,7 +11,7 @@ This repository contains the code examples of my medium tutorial "A Brief Introd
   * [Github](https://github.com/Chim-SO/introductiontomachinelearning)
 
 * Tutorial 2:
-  * [A Brief Introduction to Neural Networks : a Classification Problem]()
+  * [A Brief Introduction to Neural Networks : a Classification Problem](https://medium.com/towards-data-science/a-brief-introduction-to-neural-networks-a-classification-problem-43e68c770081)
   * [Github](https://github.com/Chim-SO/MNIST_classification).
 
 # Content:
