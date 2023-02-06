@@ -31,6 +31,17 @@ if __name__ == '__main__':
     print("Minimum value:", np.min(x_train[0]))
     print("Maximum value:", np.max(x_train[0]))
 
+    # Display bars:
+    fig, axs = plt.subplots(1, 2)
+    unique, counts = np.unique(y_train, return_counts=True)
+    axs[0].bar(unique, counts, width=0.4)
+    axs[0].set_title('Train set')
+    unique, counts = np.unique(y_test, return_counts=True)
+    axs[1].bar(unique, counts, width=0.4)
+    axs[1].set_title('Test set')
+    plt.savefig('dataset.png', bbox_inches='tight')
+    plt.show()
+
     # Data reshaping : from 2D image to row image
     x_train = x_train.reshape((x_train.shape[0], x_train.shape[1] * x_train.shape[2]))
     x_test = x_test.reshape((x_test.shape[0], x_test.shape[1] * x_test.shape[2]))
@@ -43,16 +54,6 @@ if __name__ == '__main__':
 
     # Split dataset:
     x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3, random_state=42)
-
-    # Display bars:
-    fig, axs = plt.subplots(1, 2)
-    unique, counts = np.unique(y_train, return_counts=True)
-    axs[0].bar(unique, counts, width=0.4)
-    axs[0].set_title('Train set')
-    unique, counts = np.unique(y_val, return_counts=True)
-    axs[1].bar(unique, counts, width=0.4)
-    axs[1].set_title('Validation set')
-    plt.show()
 
     # Create model:
     model = Sequential()
