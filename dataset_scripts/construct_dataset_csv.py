@@ -6,20 +6,13 @@ import numpy as np
 def to_csv_one_output(images, labels):
     # Flatten images to arrays:
     n_images, im_size = images_data.shape[:2]
-    images = images.flatten().reshape(n_images, im_size * im_size)
-
-    # Create dataset: image as array , label
-    dataset = []
-    for image, label in zip(images, labels):
-        image = image.tolist()
-        image.append(label)  # append the label at the end.
-        dataset.append(image)
+    dataset = images.reshape(n_images, im_size * im_size)
 
     # Create header for the dataframe:
     header = [str(_ + 1) for _ in range(im_size * im_size)]
     header.append('label')
 
-    return pd.DataFrame(dataset, columns=header)
+    return pd.DataFrame(np.concatenate((dataset, labels[:, np.newaxis]), axis=1), columns=header)
 
 
 def to_csv_one_hot(df):
@@ -35,8 +28,8 @@ if __name__ == '__main__':
     # Files location:
     train_or_test = 't10k'  # train or t10k
     dataset_name = 'test'
-    labels_file = f'../dataset_idx/{train_or_test}-labels.idx1-ubyte'
-    images_file = f'../dataset_idx/{train_or_test}-images.idx3-ubyte'
+    labels_file = f'../dataset/idx/{train_or_test}-labels.idx1-ubyte'
+    images_file = f'../dataset/idx/{train_or_test}-images.idx3-ubyte'
 
     # Read data:
     labels_data = idx2numpy.convert_from_file(labels_file)
@@ -51,4 +44,5 @@ if __name__ == '__main__':
 
     # Create csv:
     df = to_csv_one_output(images_data, labels_data)
-    df.to_csv(f'../dataset_csv/{dataset_name}.csv', index=False)
+    print(f"The created dataframe shape: {df.shape}")
+    df.to_csv(f'../dataset/csv/{dataset_name}.csv', index=False)
